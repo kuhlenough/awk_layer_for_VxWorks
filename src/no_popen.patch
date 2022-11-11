@@ -1,0 +1,40 @@
+
+diff -uNdr awk-master-orig/run.c awk-master/run.c
+--- awk-master-orig/run.c	2022-09-12 10:51:16.000000000 -0400
++++ awk-master/run.c	2022-11-10 10:46:24.295859947 -0500
+@@ -1835,10 +1835,12 @@
+ 	} else if (a == APPEND) {
+ 		fp = fopen(s, "a");
+ 		m = GT;	/* so can mix > and >> */
++#ifndef __VXWORKS__		
+ 	} else if (a == '|') {	/* output pipe */
+ 		fp = popen(s, "w");
+ 	} else if (a == LE) {	/* input pipe */
+ 		fp = popen(s, "r");
++#endif
+ 	} else if (a == LT) {	/* getline <file */
+ 		fp = strcmp(s, "-") == 0 ? stdin : fopen(s, "r");	/* "-" is stdin */
+ 	} else	/* can't happen */
+@@ -1889,8 +1891,10 @@
+ 		if (files[i].fp == stdin || files[i].fp == stdout ||
+ 		    files[i].fp == stderr)
+ 			stat = freopen("/dev/null", "r+", files[i].fp) == NULL;
++#ifndef __VXWORKS__		
+ 		else if (files[i].mode == '|' || files[i].mode == LE)
+ 			stat = pclose(files[i].fp) == -1;
++#endif
+ 		else
+ 			stat = fclose(files[i].fp) == EOF;
+ 		if (stat)
+@@ -1926,9 +1930,11 @@
+ 		if (files[i].fp == stdin || files[i].fp == stdout ||
+ 		    files[i].fp == stderr)
+ 			continue;
++#ifndef __VXWORKS__			
+ 		if (files[i].mode == '|' || files[i].mode == LE)
+ 			stat = pclose(files[i].fp) == -1;
+ 		else
++#endif			
+ 			stat = fclose(files[i].fp) == EOF;
+ 		if (stat)
+ 			WARNING("i/o error occurred while closing %s", files[i].fname);

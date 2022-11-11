@@ -1,0 +1,18 @@
+/* layer.vsbl file for awk layer  */
+/*
+ * Copyright (c) 2022 Wind River Systems, Inc.
+ *
+ */
+
+Layer AWK {
+    SYNOPSIS        awk 
+    VERSION         1.0.0.0
+    FEATURE         OPEN_SOURCE
+    VENDOR          Wind River
+    VSB_REQUIRES    CORE_RTP
+    LAYER_REQUIRES  UTILS_WRCC
+    OPTIONAL        YES
+    DEFAULT         NO
+    DOC_BUILD       NO
+    HELP            The one true awk or the version described in The AWK Programming Language
+}
